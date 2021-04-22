@@ -17,10 +17,7 @@ class Timer extends Component {
     };
     //Bind the functions
     this.startTimer = this.startTimer.bind(this);
-    this.stopTimer = this.stopTimer.bind(this);
-    this.pauseTimer = this.pauseTimer.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
-    this.logTime = this.logTime.bind(this);
 
     this.pauseButton = React.createRef();
     //Add the listeners
@@ -54,39 +51,11 @@ class Timer extends Component {
         timer_state: "ticking"
       })
   }
-  stopTimer(){
-      this.state.timer.stop();
 
-      this.setState({
-        ...this.state,
-        timer_state: "stopped"
-      })
-
-  }
-
-  pauseTimer(){
-    this.state.timer.pause();
-
-    this.setState({
-        ...this.state,
-        timer_state: "stopped"
-      })
-  }
-
-  resetTimer(){
-    this.state.timer.reset();
-
-    this.setState({
-        ...this.state,
-        timer_state: "ticking"
-      })
-  }
-
-  logTime(){
+resetTimer(){
     this.props.addTime(this.state.timer.getTimeValues());
       this.state.timer.reset();
-      this.pauseTimer();
-
+      this.state.timer.pause();
       this.setState({
           ...this.state,
           timer_text: this.state.timer.getTimeValues().toString(),
@@ -123,8 +92,6 @@ class Timer extends Component {
 
                     {this.state.timer_state === "ticking" &&(
                         <button onClick={() =>{
-                            this.pauseTimer();
-
                             var pausedTimer = new Date();
                             var DD = String(pausedTimer.getDate()).padStart(2, '0');
                             var MM = String(pausedTimer.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -136,24 +103,13 @@ class Timer extends Component {
 
                             pausedTimer = YYYY + '-' + MM + '-' + DD + ' ' + hh + ':' + mm + ':' + ss;
                             console.log(pausedTimer);
+                            this.resetTimer();
                         }
 
                         } ref={this.pauseButton} className = "btn-warning">
-                            <i className="fas fa-pause"></i>
+                            <i className="fas fa-stop"></i>
                         </button>
                     )}
-
-                    <button onClick={this.resetTimer} className = "btn-primary">
-                        <i className="fas fa-sync-alt"></i>
-                    </button>
-                </div>
-                <div className="log-button">
-                    <button
-                        onClick = {this.logTime}
-                        className= "btn btn-block btn-secondary"
-                    >
-                        Log Time
-                    </button>
                 </div>
             </div>
     );
