@@ -1,0 +1,10 @@
+.input-title {
+	text-align: center;
+}
+
+.duration-label{
+	margin-right: 8px;
+}
+.duration-input{
+	width: auto !important;
+}
